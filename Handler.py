@@ -64,7 +64,7 @@ def place_newquark(handler):
     vx = random.randrange(-creationspeed, creationspeed +1)
     vy = random.randrange(-creationspeed, creationspeed +1)
     m = random.choice(creationmass)
-    q = random.choice([0,1,-1,-1,-1,-1])
+    q = random.choice([0,1,-1,-1,-1])
     if q < 0:
         m = 2
         tag = 'electron'

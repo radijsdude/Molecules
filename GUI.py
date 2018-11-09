@@ -27,6 +27,7 @@ class game_lus():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         stop = True
+                        sys.exit()
                         quit()
                     elif event.key == pygame.K_HOME:
                         self.handler = Handler(amount)
