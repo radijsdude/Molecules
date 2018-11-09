@@ -7,7 +7,7 @@ import pygame
 pygame.init()
 display = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 display_breedte, display_lengte = display.get_size()
-pygame.mouse.set_pos(display_breedte,0)
+pygame.mouse.set_pos(display_breedte,display_lengte)
 gridx = 20
 gridy = 20
 gridb = display_breedte - gridx

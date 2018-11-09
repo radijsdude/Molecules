@@ -8,7 +8,7 @@ from Handler import *
 class game_lus():
     def __init__(self):
         self.display = display
-        pygame.display.set_caption('Main')
+        pygame.display.set_caption('Molecules')
         self.clock = pygame.time.Clock()
         self.handler = Handler(amount)
         self.running = True
@@ -39,7 +39,7 @@ class game_lus():
                             pygame.display.set_mode((display_breedte,display_lengte))
                         else:
                             pygame.display.set_mode((0,0),pygame.FULLSCREEN)
-                            pygame.mouse.set_pos(display_breedte,0)
+                            pygame.mouse.set_pos(display_breedte,display_lengte)
                         self.fullscreen = not self.fullscreen
 
             self.display.fill(zwart)
