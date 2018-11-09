@@ -1,5 +1,5 @@
 # Molecules
-Simple physics collision/attraction screenscaver.
+Simple physics collision/forcefield screenscaver.
 
 Download GUI.exe from https://github.com/radijsdude/Molecules/releases
 
