@@ -1,5 +1,5 @@
 # Molecules
-Simple collision screenscaver.
+Simple physics collision/attraction screenscaver.
 
 Have python(3.7) and pygame and run GUI.py
 
