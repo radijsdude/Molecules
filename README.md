@@ -1,7 +1,9 @@
 # Molecules
 Simple physics collision/attraction screenscaver.
 
-Have python(3.7) and pygame and run GUI.py
+Download GUI.exe from https://github.com/radijsdude/Molecules/releases
+
+Or have python(3.7) and pygame and run GUI.py
 
 Insert = Pause
 
