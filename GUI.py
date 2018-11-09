@@ -39,6 +39,7 @@ class game_lus():
                             pygame.display.set_mode((display_breedte,display_lengte))
                         else:
                             pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+                            pygame.mouse.set_pos(display_breedte,0)
                         self.fullscreen = not self.fullscreen
 
             self.display.fill(zwart)
