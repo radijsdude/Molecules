@@ -35,10 +35,10 @@ def merge(quark1,quark2):
     if cm < protonsize:
         newquark = Quark(m=cm,x=cx,y=cy,vx=vx,vy=vy,q=0,size=cm,tag='quark')
     elif cm == protonsize:
-        newquark = Quark(m=cm,x=cx,y=cy,vx=vx,vy=vy,q=cm,size=cm,tag='proton')
+        newquark = Quark(m=protonmass,x=cx,y=cy,vx=vx,vy=vy,q=protoncharge,size=cm,tag='proton')
     else:
-        newquark = Quark(m=cm,x=cx,y=cy,vx=vx,vy=vy,q=cm,size=protonsize,tag='proton')
-        for i in range(int((cm-protonsize)/2)):
+        newquark = Quark(m=protonmass,x=cx,y=cy,vx=vx,vy=vy,q=protoncharge,size=protonsize,tag='proton')
+        for i in range(int((cm-protonmass)/2)):
             ux = random.randrange(-uncertainty,uncertainty +1)
             uy = random.randrange(-uncertainty,uncertainty +1)
             vx = random.randrange(-creationspeed,creationspeed +1)
@@ -57,23 +57,23 @@ def newspeeder(quark1,quark2):
     vx = speederspeed * math.cos(angle)
     vy = speederspeed * math.sin(angle)
     name = ''.join(sorted([quark1.name,quark2.name]))
-    return Quark(x=x+vx,y=y+vy,m=5,vx=vx,vy=vy,size=2,tag='speeder',parent=name,q=0)
+    return Quark(x=x+vx,y=y+vy,m=speedermass,vx=vx,vy=vy,size=speedersize,tag='speeder',parent=name,q=speedercharge)
 
 
 def place_newquark(handler):
     vx = random.randrange(-creationspeed, creationspeed +1)
     vy = random.randrange(-creationspeed, creationspeed +1)
     m = random.choice(creationmass)
-    q = random.choice([0,1,-1,-1,-1])
+    q = random.choice(chargedistribution)
     if q < 0:
-        m = 2
+        m = electronmass
         tag = 'electron'
-        q = chargeelectron
-        size = 2
+        q = electroncharge
+        size = electronsize
     elif q > 0:
         m = protonsize
         size = protonsize
-        q = chargeproton
+        q = protoncharge
         tag='proton'
     else:
         tag='quark'
@@ -108,13 +108,14 @@ def safetoplace(handler,newquark):
 
 class Handler:
     def __init__(self,amount):
-        self.quarks = [Quark(m=30,size=20,q=-50,tag='attractor',x=display_breedte/2,y=display_lengte/2)]
-        self.quarks += [Quark(m=30,size=20,q=-50,tag='attractor',x=display_breedte/2+100,y=display_lengte/2+100)]
+        self.quarks = [Quark(m=attractormass,size=20,q=-50,tag='attractor',x=display_breedte/2,y=display_lengte/2)]
+        self.quarks += [Quark(m=attractormass,size=20,q=-50,tag='attractor',x=display_breedte/2+50,y=display_lengte/2+50)]
+        self.quarks += [Quark(m=attractormass,size=20,q=-50,tag='attractor',x=display_breedte/2+50,y=display_lengte/2-50)]
         self.count = 0
         for i in range(amount):
             place_newquark(self)
         for i in range(amountflares):
-            safetoplace(self,Quark(m=5,size=3,tag='flare',q=0))
+            safetoplace(self,Quark(m=flaremass,size=flaresize,tag='flare',q=flarecharge))
 
     def doe(self):
         newbies = []
@@ -129,15 +130,20 @@ class Handler:
                 for j,quark2 in enumerate(self.quarks):
                     if j not in deletes:
                         d = distance(quark1,quark2)
-                        t1 = quark1.tag == 'attractor' and quark2.tag == 'proton'
-                        t2 = quark2.tag == 'attractor' and quark1.tag == 'proton'
+                        t1 = quark1.tag == 'attractor'
+                        t2 = quark2.tag == 'attractor'
                         t = t1 or t2
+                        if d < 4 * active_distance and t:
+                            t = True
+                        else:
+                            t = False
                         if d < active_distance or t:
                             if quark1.name != quark2.name:
                                 if quark1.q != 0 and quark2.q !=0:
-                                    if quark1.tag == 'attractor' and quark2.tag == 'electron':
+
+                                    if quark1.tag == 'attractor' and quark2.tag == 'flare':
                                         pass
-                                    elif quark2.tag == 'attractor' and quark1.tag == 'electron':
+                                    elif quark2.tag == 'attractor' and quark1.tag == 'flare':
                                         pass
                                     else:
                                         quark_force_coulomb(quark1,quark2)
@@ -186,17 +192,17 @@ class Handler:
                                             if quark2.tag != 'electron':
                                                 if quark2.tag != 'quark':
                                                     if quark2.tag != 'flare':
-                                                        if i not in deletes:
-                                                            deletes.append(i)
+                                                        if quark2.tag != 'attractor':
+                                                            if i not in deletes:
+                                                                deletes.append(i)
 
                                         if quark2.tag == 'speeder':
                                             if quark1.tag != 'electron':
                                                 if quark1.tag != 'quark':
                                                     if quark1.tag != 'flare':
-                                                        if j not in deletes:
-                                                            deletes.append(j)
-
-
+                                                        if quark1.tag != 'attractor':
+                                                            if j not in deletes:
+                                                                deletes.append(j)
 
                 quark1.accelerate()
                 quark1.move()
@@ -205,6 +211,7 @@ class Handler:
             self.quarks.pop(i)
         for i in newbies:
             self.quarks.append(i)
+
     def blits(self):
         l = []
         for quark in self.quarks:

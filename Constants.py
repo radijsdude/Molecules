@@ -16,11 +16,11 @@ gridl = display_lengte - gridy
 
 wit = (255, 255, 255)
 zwart = (0, 0, 0)
-rood = (255, 100, 100)
-groen = (100, 255, 100)
-blauw = (100, 100, 255)
+rood = (255, 0, 0)
+groen = (0, 255, 0)
+blauw = (25, 25, 255)
 geel = (255, 255, 0)
-oranje = (255, 60, 0)
+oranje = (200, 60, 0)
 grijs = (190, 200, 200)
 cyanide = (0, 250, 250)
 paars = (250, 0, 250)
@@ -29,18 +29,33 @@ creationspeed = 3
 creationmass = [2] * 5 + [3] * 4 + [4] * 3 + [5] * 2 + [6]
 creationcharge = 1
 
-constant_coulomb = 6
+constant_coulomb = 10
 active_distance = 50
-amount = 200
-amountflares = 5
-friction = 0.02
+amount = 180
+amountflares = 3
+friction = 0.015
 
+protoncharge = 6
 protonsize = 6
+protonmass = 6
+
+electroncharge = -2
 electronsize = 2
+electronmass = 2
 
-chargeproton = 8
-chargeelectron = -2
 
+attractorscale = 150
+attractormass = 20
+attractorelectronscale = 0.5
+
+speedermass = 5
 speederspeed = 5
+speedersize = 2
+speedercharge = 0
 
-attractorscale = 400
+
+flaremass = 5
+flarecharge = -2
+flaresize = 3
+
+chargedistribution = [0,0,1,1,1,-1,-1,-1,-1,-1]

@@ -78,12 +78,26 @@ def quark_force_coulomb(quark1,quark2):
     q2 = quark2.q
     dx = x1 - x2
     dy = y1 - y2
+    t1 = False
+    t2 = False
+    if quark1.tag == 'attractor' and quark2.tag == 'electron':
+        q2 = -q2
+        t2 = True
+    if quark2.tag == 'attractor' and quark1.tag == 'electron':
+        q1 = -q1
+        t1 = True
     r = distance(quark1,quark2)
     if r < quark1.size+quark2.size:
         r = quark1.size+quark2.size
     a = constant_coulomb * q1 * q2 /(m1 * r ** 3)
     ax = a * dx
     ay = a * dy
+    if t1:
+        ax *= attractorelectronscale
+        ay *= attractorelectronscale
+    if t2:
+        ax = 0
+        ay = 0
     quark1.ax += ax
     quark1.ay += ay
 
@@ -124,7 +138,8 @@ class Quark:
         self.ax = 0
         self.ay = 0
     def accelerate(self):
-        self.friction()
+        if self.tag == 'electron':
+            self.friction()
         self.vx += self.ax
         self.vy += self.ay
         if self.tag == 'speeder' or self.tag == 'flare':
